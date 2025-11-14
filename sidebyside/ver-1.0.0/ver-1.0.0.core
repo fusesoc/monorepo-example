@@ -1,0 +1,13 @@
+CAPI=2:
+
+name : fusesoc:example:sidebyside:1.0.0
+description : Core logic for sidebyside example
+license : MIT
+
+filesets:
+  rtl:
+    files: [ver1.v]
+
+targets:
+  default:
+    filesets : [rtl]

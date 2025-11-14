@@ -1,0 +1,19 @@
+CAPI=2:
+
+name : fusesoc:example:sidebyside_top:0.0.1
+description : Top-level for sidebyside example
+license : MIT
+
+filesets:
+  rtl:
+    files: [top.v]
+    depend : [fusesoc:example:sidebyside]
+
+targets:
+  default:
+    filesets : [rtl]
+    filters: [autotype]
+    flow: sim
+    flow_options:
+      tool: icarus
+    toplevel : top
