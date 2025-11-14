@@ -1,0 +1,1 @@
+The fusesoc:example:sidebyside_top core (in top/) depends on fusesoc:example:sidebyside. ver-1.0.0 and ver-2.0.0 each contain a fusesoc:example:sidebyside core with different versions.
