@@ -84,6 +84,8 @@ The typical workflow when using remote cores is to have each IP in a separate re
 
 ![Remote cores](remotecores.png)
 
+This workflow typically uses a mix of local and remote cores, where the cores currently being worked on use local cores and the rest of the dependencies use remote cores. There is also no strict requirement that each core uses a separate repo. Related cores can be grouped together into the same repo. There are some caveats to this however which are described below in the section on monorepos with remote cores.
+
 ## Monorepo Workflows
 
 There are different alternative monorepo workflows that can be used, each with pros and cons. In all scenarios we assume a top-level core that depends on a sub-level core of which there exist multiple versions to choose from. Each of the workflows comes with a runnable example. The following instructions sets up everything to run the examples in the subsequent sections.
@@ -106,3 +108,16 @@ The simplest way to have multiple versions in a monorepo is to make several copi
 ### Multiple copies with dev version in repo
 
 A slight variation of the workflow above is to make (preferably read-only) archive copies of stable versions of the cores somewhere else. This can be a separate repo or plain storage. In this workflow only the version in the repo is under development. It can be wise to set the version number of the core under development to an arbitrary high number (like 999.9.9) to make sure that it is always picked as the latest version. In this case, don't forget to set the correct version number on the archived cores.
+
+### URL provider
+
+Another variation of using multiple copies is to package stable IP cores as zip/tar.gz archives and make these available over http. This allows FuseSoC to use the URL provider to fetch them as remote cores.
+
+### Monorepo as remote core
+
+Monorepos with remote cores technically work the same as with a polyrepo setup.
+There's nothing technicallly stopping users from putting all cores into the same repo with individual versioning. Ther are however two practical limitiations to this approach.
+
+Remote cores, when using git, use the repo root as the root directory for the source files. This means that any path to a source file must be relative to the repo root. If a local core that resides in a subdirectory in the repo is converted to a remote core, all paths must be prefixed with the subdirectory. This makes it more complicated to convert between local and remote cores.
+
+Each version of each core will need to check out the complete repo to their respective cache. For a larger repo this can become impractical when the repo size or number of cores grow.
